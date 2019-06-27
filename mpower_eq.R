@@ -4,24 +4,24 @@
 #
 #-----------------------------------------------------------------------------------------------------------------------------
 
-mpower_eq <- function(obsdat, mmodel, ymodel, MonY) {
+mpower_eq <- function(dat, mmodel, ymodel, MonY) {
   
   # define vars for power calculation
   # calculate multiple correlation 
-  corfit <- glm(formula=mmodel, data=obsdat)
+  corfit <- glm(formula=mmodel, data=dat)
   mhat <- predict(corfit)
-  rho <- cov(mhat, obsdat$m)/(sqrt(var(mhat))*sqrt(var(obsdat$m)))
+  rho <- cov(mhat, dat$m)/(sqrt(var(mhat))*sqrt(var(dat$m)))
   
   # set type 1 error = 0.975
     z_a <- qnorm(0.975) 
   # set type 2 error = 0.2, which implies power=0.8
     z_g <- qnorm(0.8)
 
-  lmfit <- glm(formula=ymodel, data=obsdat)
+  lmfit <- glm(formula=ymodel, data=dat)
   b2 <- MonY 
 
-  sigma_1 <- var(obsdat$a)
-  sigma_2 <- var(obsdat$m)
+  sigma_1 <- var(dat$a)
+  sigma_2 <- var(dat$m)
 
   sigma_e <- var(residuals(lmfit))
 
