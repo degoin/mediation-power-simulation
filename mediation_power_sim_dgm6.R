@@ -7,9 +7,8 @@
 rm(list=ls())
 library(dplyr)
 
-  source("./mpower.R")
+  source("./mpower_intermedvar.R")
   source("./medtmle_intermedvar.R")
-  source("./medtmle_nointermedvar.R")
   source("./baron_kenny.R")
   source("./iorw.R")
   source("./mpower_eq.R")
@@ -23,20 +22,20 @@ library(dplyr)
 # define DGM 
 
 # relationships between key variables
-AonZ <- 0.1
+AonZ <- 0.6
 AonM <- 0.03
 AMonY <- 0
-AonY <- 0.03
+AonY <- 0.01
 
 ZonM <- 0.2
 ZonY <- 0.03
 
-MonY <- 0.04
+MonY <- 0.01
 
 # set the super population sample size, sample size used to estimate performance, and number of simulations
 superN <- 5000000
 n <- 100
-simN <- 10
+simN <- 1000
 
 # define super population
 w <- rbinom(superN, 1, 0.2)
@@ -120,6 +119,6 @@ all_results_t$coverage <- as.numeric(levels(all_results_t$coverage))[all_results
 power_results <- all_results_t %>% group_by(parameter, method) %>% summarise(power = mean(ed), coverage=mean(coverage))
 
 # record true effect size 
-power_results$effect_size <- ifelse(all_results_a$parameter=="NDE",truth$sde,truth$sie)
+power_results$effect_size <- ifelse(power_results$parameter=="NDE",truth$sde,truth$sie)
 
 

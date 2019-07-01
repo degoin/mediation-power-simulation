@@ -203,13 +203,13 @@ mpower <- function(iteration,superN, n, fulldat, truth, amodel, zmodel, mmodel, 
   #-----------------------------------------------------------------------------------------------------------------------------
   #  Equation, Z omitted
   #-----------------------------------------------------------------------------------------------------------------------------
-  eq_oz <- data.frame(mpower_eq(dat=fulldat, mmodel=mmodel_noz, ymodel=ymodel_noz, MonY=MonY))
+  eq_oz <- data.frame(mpower_eq(obsdat, mmodel=mmodel_noz, ymodel=ymodel_noz, MonY=MonY))
   eq_oz$method = "Equation omit Z"
 
   #-----------------------------------------------------------------------------------------------------------------------------
   #  Equation, Z controlled
   #-----------------------------------------------------------------------------------------------------------------------------
-  eq_cz <- data.frame(mpower_eq(dat=fulldat, mmodel=mmodel, ymodel=ymodel, MonY=MonY))
+  eq_cz <- data.frame(mpower_eq(obsdat, mmodel=mmodel, ymodel=ymodel, MonY=MonY))
   eq_cz$method <- "Equation control Z"
   
   
