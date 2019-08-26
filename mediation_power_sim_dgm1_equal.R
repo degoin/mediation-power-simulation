@@ -29,7 +29,7 @@ MonY <- 0.6
 
 # set the super population sample size, sample size used to estimate performance, and number of simulations
 superN <- 5000000
-n <- 100
+n <- 10000
 simN <- 1000
 
 # calculate natural direct and indirect effects using Pearl's mediational formula 
@@ -61,7 +61,7 @@ nde <- (ey_a1m0w0 - ey_a0m0w0)*pm0_a0w0*0.8 + (ey_a1m0w1 - ey_a0m0w1)*pm0_a0w1*0
 nie <- ey_a1m0w0*(pm0_a1w0 - pm0_a0w0)*0.8  + ey_a1m0w1*(pm0_a1w1 - pm0_a0w1)*0.2 + 
   ey_a1m1w0*(pm1_a1w0 - pm1_a0w0)*0.8 + ey_a1m1w1*(pm1_a1w1 - pm1_a0w1)*0.2
 
-truth = data.frame(nde=nde, nie=nie)
+truth <- data.frame(nde=nde, nie=nie)
 
 # define super population
 w <- rbinom(superN, 1, 0.2)

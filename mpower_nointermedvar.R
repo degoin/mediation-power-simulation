@@ -40,6 +40,35 @@ mpower <- function(iteration,superN, n, fulldat, truth, amodel,mmodel, ymodel, q
                              parameter = "NIE", method="Baron & Kenny"))
   
   bk <- rbind(bk_nde, bk_nie)
+  
+  #-----------------------------------------------------------------------------------------------------------------------------
+  # baron & kenny approach with interaction
+  #-----------------------------------------------------------------------------------------------------------------------------
+  
+  bk_int <- baron_kenny_int(obsdat=obsdat, ymodel=ymodel, mmodel=mmodel)
+  
+  # one-sided test for power to detect a direct effect 
+  nde_power <- ifelse(bk_int$nde_lb[1]>=0,1,0)
+  
+  # calculate whether confidence interval covers truth 
+  nde_cov <- as.numeric(bk_int$nde_lb<=truth$nde & bk_int$nde_ub>=truth$nde)
+  
+  # one-sided test for power to detect an indirect effect 
+  nie_power  <- ifelse(bk_int$nie_lb[1]>=0,1,0)
+  
+  # calculate whether confidence interval covers truth 
+  nie_cov <- as.numeric(bk_int$nie_lb<=truth$nie & bk_int$nie_ub>=truth$nie)
+  
+  
+  bk_int_nde <- data.frame(cbind(lb = bk_int$nde_lb, ub = bk_int$nde_ub, 
+                             ed = nde_power, coverage = nde_cov,
+                             parameter = "NDE", method="Baron & Kenny Interaction"))
+  bk_int_nie <- data.frame(cbind(lb = bk_int$nie_lb, ub = bk_int$nie_ub, 
+                             ed = nie_power, coverage = nie_cov, 
+                             parameter = "NIE", method="Baron & Kenny Interaction"))
+  
+  bk_int <- rbind(bk_int_nde, bk_int_nie)
+  
 
   #-----------------------------------------------------------------------------------------------------------------------------
   # inverse odds ratio weighting approach
@@ -148,7 +177,7 @@ mpower <- function(iteration,superN, n, fulldat, truth, amodel,mmodel, ymodel, q
   eq$method = "Equation"
 
   # combine and compare results from all 3 methods 
-  results <- data.frame(rbind(bk, iorw, tmle, tmle_bs, eq))
+  results <- data.frame(rbind(bk, bk_int, iorw, tmle, tmle_bs, eq))
   
   return(results)
 }
